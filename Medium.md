@@ -16,3 +16,24 @@ AND (i1.lat, i1.lon) IN (
     HAVING COUNT(*) = 1
 );
 ```
+
+## [602. Friend Requests II: Who Has the Most Friends](https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/description/)
+
+```sql
+WITH CTE AS (
+    SELECT requester_id AS id
+    FROM RequestAccepted
+
+    UNION ALL
+
+    SELECT accepter_id AS id
+    FROM RequestAccepted
+)
+
+SELECT TOP 1
+    id,
+    COUNT(id) AS num
+FROM CTE
+GROUP BY id
+ORDER BY num DESC;
+```
