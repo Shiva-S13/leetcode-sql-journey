@@ -106,6 +106,14 @@ where o.order_date>='2020-02-01'
 group by p.product_name
 having sum(o.unit)>=100;
 ```
-
-
+## [626. Exchange Seats](https://leetcode.com/problems/exchange-seats/description/)
+```sql
+SELECT id, 
+CASE
+    WHEN id % 2 = 0 
+        THEN LAG(student) OVER(ORDER BY id)
+    ELSE COALESCE(LEAD(student) OVER(ORDER BY id), student)
+END AS student
+FROM Seat;
+```
 
