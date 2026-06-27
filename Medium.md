@@ -116,4 +116,32 @@ CASE
 END AS student
 FROM Seat;
 ```
+## [1907. Count Salary Categories](https://leetcode.com/problems/count-salary-categories/description/)
+```sql
+with Categories as(
+    select 'Low Salary' as Category
+    union all
+    select 'Average Salary' 
+    union all
+    select 'High Salary' ),
+
+ Salary_Counts as (select
+case
+ when income <20000 then 'Low Salary'
+ when income <= 50000 then 'Average Salary'
+ else 'High Salary'
+ end as Category,
+ count(*) as accounts_count
+from Accounts
+group by case
+ when income <20000 then 'Low Salary'
+ when income <= 50000 then 'Average Salary'
+ else 'High Salary'
+ end)
+
+select C.Category, coalesce(s.accounts_count,0) as accounts_count
+from Categories c left join Salary_Counts s
+on c.Category=s.Category
+```
+
 
