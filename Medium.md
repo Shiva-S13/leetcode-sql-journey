@@ -1,5 +1,4 @@
 ## [585. Investments in 2016](https://leetcode.com/problems/investments-in-2016/)
-
 ```sql
 SELECT ROUND(SUM(i1.tiv_2016), 2) AS tiv_2016
 FROM Insurance i1
@@ -18,7 +17,6 @@ AND (i1.lat, i1.lon) IN (
 ```
 
 ## [602. Friend Requests II: Who Has the Most Friends](https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/description/)
-
 ```sql
 WITH CTE AS (
     SELECT requester_id AS id
@@ -38,7 +36,6 @@ GROUP BY id
 ORDER BY num DESC;
 ```
 ## [1321. Restaurant Growth](https://leetcode.com/problems/restaurant-growth/description/)
-
 ```sql
 with Daily_amount as (SELECT
         visited_on,
@@ -143,5 +140,13 @@ select C.Category, coalesce(s.accounts_count,0) as accounts_count
 from Categories c left join Salary_Counts s
 on c.Category=s.Category
 ```
-
+## [1204. Last Person to Fit in the Bus](https://leetcode.com/problems/last-person-to-fit-in-the-bus/description/)
+```sql
+with CTE as (select person_name, turn, sum(weight) over (order by turn) as Total_weight
+from Queue)
+Select Top 1 person_name
+from CTE
+where Total_weight<=1000
+order by turn desc;
+```
 
