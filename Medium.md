@@ -83,7 +83,16 @@ FROM (
 ) b;
 ```
 
-
-
+## [1484. Group Sold Products By The Date](https://leetcode.com/problems/group-sold-products-by-the-date/description/)
+```sql
+select 
+sell_date, 
+count(distinct product) as num_sold,
+string_agg(product, ',') as Products 
+from 
+(select distinct sell_date, product from Activities) a
+group by sell_date
+order by sell_date;
+```
 
 
