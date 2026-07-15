@@ -15,3 +15,11 @@ from Project P join Employee e
 on p.employee_id=e.employee_id
 group by p.project_id
 ```
+## [1978. Employees Whose Manager Left the Company](https://leetcode.com/problems/employees-whose-manager-left-the-company/?envType=study-plan-v2&envId=top-sql-50)
+```sql
+
+select e.employee_id as employee_ID
+from Employees e left join Employees m
+on e.manager_id=m.employee_id
+where e.salary<30000 and e.manager_id is not null and m.manager_id is null
+```
