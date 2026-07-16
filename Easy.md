@@ -22,4 +22,13 @@ select e.employee_id as employee_ID
 from Employees e left join Employees m
 on e.manager_id=m.employee_id
 where e.salary<30000 and e.manager_id is not null and m.manager_id is null
+
+SELECT employee_id
+FROM Employees
+WHERE salary < 30000
+  AND manager_id IS NOT NULL
+    AND manager_id NOT IN (
+        SELECT employee_id
+        FROM Employees) 
+ORDER BY employee_id;
 ```
