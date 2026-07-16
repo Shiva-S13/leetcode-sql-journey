@@ -85,9 +85,64 @@ SELECT
 FROM CTE
 GROUP BY rn
 ORDER BY rn;
-
 ```
+## [615_Average_Salary](https://github.com/shawlu95/Beyond-LeetCode-SQL/tree/master/LeetCode/615_Average_Salary)
+```sql
+SELECT
+    a.Pay_Month,
+    a.department_id,
+    CASE
+        WHEN a.Dept_Avg > b.Com_Avg THEN 'higher'
+        WHEN a.Dept_Avg < b.Com_Avg THEN 'lower'
+        ELSE 'same'
+    END AS comparison
+FROM
+(
+    SELECT
+        e.department_id,
+        DATEFROMPARTS(
+            YEAR(s.pay_date),
+            MONTH(s.pay_date),
+            1
+        ) AS Pay_Month,
+        AVG(s.amount * 1.0) AS Dept_Avg
+    FROM Employee e
+    JOIN Salary s
+        ON e.employee_id = s.employee_id
+    GROUP BY
+        e.department_id,
+        DATEFROMPARTS(
+            YEAR(s.pay_date),
+            MONTH(s.pay_date),
+            1
+        )
+) AS a
 
+JOIN
+
+(
+    SELECT
+        DATEFROMPARTS(
+            YEAR(pay_date),
+            MONTH(pay_date),
+            1
+        ) AS Pay_Month,
+        AVG(amount * 1.0) AS Com_Avg
+    FROM Salary
+    GROUP BY
+        DATEFROMPARTS(
+            YEAR(pay_date),
+            MONTH(pay_date),
+            1
+        )
+) AS b
+
+ON a.Pay_Month = b.Pay_Month
+
+ORDER BY
+    a.Pay_Month DESC,
+    a.department_id;
+```
 
 
 
