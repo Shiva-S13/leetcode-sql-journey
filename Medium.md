@@ -155,4 +155,57 @@ SELECT *
 FROM Users
 WHERE mail REGEXP '^[A-Za-z][A-Za-z0-9_.-]*@leetcode\\.com$';
 ```
+## [1341. Movie Rating](https://leetcode.com/problems/movie-rating/description/?envType=study-plan-v2&envId=top-sql-50)
+```sql
+
+
+SELECT results
+FROM
+(
+    SELECT TOP 1
+        u.name AS results
+    FROM Users u
+    JOIN MovieRating r
+        ON u.user_id = r.user_id
+    GROUP BY u.name
+    ORDER BY COUNT(*) DESC, u.name
+) t1
+
+UNION ALL
+
+SELECT results
+FROM
+(
+    SELECT TOP 1
+        m.title AS results
+    FROM Movies m
+    JOIN MovieRating r
+        ON m.movie_id = r.movie_id
+    WHERE r.created_at >= '2020-02-01'
+      AND r.created_at < '2020-03-01'
+    GROUP BY m.title
+    ORDER BY SUM(r.rating) * 1.0 / COUNT(*) DESC,
+             m.title
+) t2;
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
