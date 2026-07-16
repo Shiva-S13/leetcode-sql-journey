@@ -204,7 +204,20 @@ with Daily_amount as (SELECT
     order by Visited_on asc
     offset 6 rows
 ```
+## [602. Friend Requests II: Who Has the Most Friends](https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/description/?envType=study-plan-v2&envId=top-sql-50)
+```sql
+with cte as (select requester_id as results
+from RequestAccepted
+union all
+select accepter_id as results
+from RequestAccepted)
 
+select top 1 results as id, count(*) as Num
+from cte
+group by results
+order by count(*) desc
+
+```
 
 
 
