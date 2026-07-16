@@ -18,10 +18,14 @@ group by p.project_id
 ## [1978. Employees Whose Manager Left the Company](https://leetcode.com/problems/employees-whose-manager-left-the-company/?envType=study-plan-v2&envId=top-sql-50)
 ```sql
 
-select e.employee_id as employee_ID
-from Employees e left join Employees m
-on e.manager_id=m.employee_id
-where e.salary<30000 and e.manager_id is not null and m.manager_id is null
+SELECT e.employee_id
+FROM Employees e
+LEFT JOIN Employees m
+    ON e.manager_id = m.employee_id
+WHERE e.salary < 30000
+  AND e.manager_id IS NOT NULL
+  AND m.employee_id IS NULL
+ORDER BY e.employee_id;
 
 SELECT employee_id
 FROM Employees
