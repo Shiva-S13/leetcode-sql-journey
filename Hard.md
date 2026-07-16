@@ -24,3 +24,18 @@ SELECT
 FROM CTE
 WHERE rn <= 3;
 ```
+## [601. Human Traffic of Stadium](https://leetcode.com/problems/human-traffic-of-stadium/description/)
+```sql
+with CTE as (select *
+,id-row_number() over(order by id) as grp 
+from stadium 
+where people >100)
+
+select id, visit_date, people
+from CTE where grp in
+( select grp from CTE 
+group by grp
+having count(*)>=3)
+order by visit_date
+
+```
