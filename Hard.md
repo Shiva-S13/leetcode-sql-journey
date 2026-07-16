@@ -62,9 +62,31 @@ WHERE c.banned = 'No'
 GROUP BY t.request_at
 ORDER BY t.request_at;
 ```
+## [618_Students_Report_by_Geography](https://github.com/shawlu95/Beyond-LeetCode-SQL/tree/master/LeetCode/618_Students_Report_by_Geography)
+```sql
 
+WITH CTE AS
+(
+    SELECT
+        name,
+        continent,
+        ROW_NUMBER() OVER
+        (
+            PARTITION BY continent
+            ORDER BY name
+        ) AS rn
+    FROM Student
+)
 
+SELECT
+    MAX(CASE WHEN continent = 'America' THEN name END) AS America,
+    MAX(CASE WHEN continent = 'Asia' THEN name END) AS Asia,
+    MAX(CASE WHEN continent = 'Europe' THEN name END) AS Europe
+FROM CTE
+GROUP BY rn
+ORDER BY rn;
 
+```
 
 
 
