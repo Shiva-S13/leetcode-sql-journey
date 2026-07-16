@@ -188,7 +188,22 @@ FROM
              m.title
 ) t2;
 ```
+## [1321. Restaurant Growth](https://leetcode.com/problems/restaurant-growth/description/?envType=study-plan-v2&envId=top-sql-50)
+```sql
 
+with Daily_amount as (SELECT
+        visited_on,
+        SUM(amount) AS amount
+    FROM Customer
+    GROUP BY visited_on)
+
+    select visited_on, 
+    sum(amount) over (order by visited_on rows between 6 preceding and current row) as amount,
+    round(Avg(amount*1.0) over (order by visited_on rows between 6 preceding and current row),2) as average_amount
+    from Daily_amount
+    order by Visited_on asc
+    offset 6 rows
+```
 
 
 
