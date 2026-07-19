@@ -121,8 +121,35 @@ ORDER BY
     a.department_id;
 ```
 
+## [601. Human Traffic of Stadium](https://leetcode.com/problems/human-traffic-of-stadium/description/)
 
+```sql
+WITH CTE AS
+(
+    SELECT
+        id,
+        visit_date,
+        people,
+        ROW_NUMBER() OVER (ORDER BY id) AS rn,
+        id - ROW_NUMBER() OVER (ORDER BY id) AS grp
+    FROM Stadium
+    WHERE people >= 100
+)
 
+SELECT
+    id,
+    visit_date,
+    people
+FROM CTE
+WHERE grp IN
+(
+    SELECT grp
+    FROM CTE
+    GROUP BY grp
+    HAVING COUNT(*) >= 3
+)
+ORDER BY visit_date;
+```
 
 
 
