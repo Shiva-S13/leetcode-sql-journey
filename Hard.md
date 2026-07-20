@@ -176,6 +176,49 @@ SELECT
     ) AS day1_retention
 FROM CTE
 GROUP BY install_date;
-
 ```
+
+## [569. Median Employee Salary ](https://github.com/doocs/leetcode/blob/main/solution/0500-0599/0569.Median%20Employee%20Salary/README_EN.md)
+```sql
+WITH CTE AS
+(
+    SELECT *,
+           ROW_NUMBER() OVER(PARTITION BY company ORDER BY salary) AS rk,
+           COUNT(id) OVER(PARTITION BY company) AS n
+    FROM Employee
+)
+
+SELECT
+    id,
+    company,
+    salary
+FROM CTE
+WHERE rk >= (n + 1) / 2
+  AND rk <= (n + 2) / 2;
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
