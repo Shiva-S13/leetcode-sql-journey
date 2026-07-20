@@ -151,5 +151,31 @@ WHERE grp IN
 ORDER BY visit_date;
 ```
 
+## [1097. Game Play Analysis V](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1097.Game%20Play%20Analysis%20V/README_EN.md)
+```sql
 
+WITH CTE AS
+(
+    SELECT *,
+           MIN(event_date) OVER(PARTITION BY player_id) AS install_date
+    FROM Activity
+)
+
+SELECT
+    install_date,
+    COUNT(DISTINCT player_id) AS installs,
+    CAST(
+        SUM(
+            CASE
+                WHEN DATEDIFF(day, install_date, event_date) = 1
+                THEN 1
+                ELSE 0
+            END
+        ) * 1.0 / COUNT(DISTINCT player_id)
+        AS DECIMAL(10,2)
+    ) AS day1_retention
+FROM CTE
+GROUP BY install_date;
+
+```
 
