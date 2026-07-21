@@ -197,7 +197,31 @@ WHERE rk >= (n + 1) / 2
   AND rk <= (n + 2) / 2;
 ```
 
+## [0579.Find Cumulative Salary of an Employee](https://github.com/doocs/leetcode/blob/main/solution/0500-0599/0579.Find%20Cumulative%20Salary%20of%20an%20Employee/README_EN.md)
 
+```sql
+
+SELECT
+    e1.id,
+    e1.month,
+    SUM(e2.salary) AS Salary
+FROM Employee e1
+JOIN Employee e2
+    ON e1.id = e2.id
+   AND e2.month BETWEEN e1.month - 2 AND e1.month
+WHERE e1.month <> (
+    SELECT MAX(e3.month)
+    FROM Employee e3
+    WHERE e3.id = e1.id
+)
+GROUP BY
+    e1.id,
+    e1.month
+ORDER BY
+    e1.id,
+    e1.month DESC;
+
+```
 
 
 
