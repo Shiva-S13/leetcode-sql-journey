@@ -222,10 +222,37 @@ group by results
 order by count(*) desc
 
 ```
+## [2701. Consecutive Transactions with Increasing Amounts](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2701.Consecutive%20Transactions%20with%20Increasing%20Amounts/README_EN.md)
+```sql
 
-
-
-
+WITH CTE AS
+(SELECT *,
+           LAG(transaction_date) OVER  (PARTITION BY customer_id ORDER BY transaction_date) AS prev_day,
+  LAG(amount) OVER ( PARTITION BY customer_id ORDER BY transaction_date) AS prev_amount
+    FROM Transactions
+),
+flag_cte AS
+(SELECT *,
+           CASE
+               WHEN prev_day IS NULL THEN 1
+               WHEN DATEDIFF(day, prev_day, transaction_date) <> 1 THEN 1
+               WHEN amount <= prev_amount THEN 1
+               ELSE 0 END AS new_grp
+    FROM CTE),
+grp_flag AS
+(SELECT *,
+           SUM(new_grp) OVER ( PARTITION BY customer_id ORDER BY transaction_dateROWS UNBOUNDED PRECEDING) AS grp
+    FROM flag_cte
+)
+SELECT
+    customer_id,
+    MIN(transaction_date) AS consecutive_start,
+    MAX(transaction_date) AS consecutive_end
+FROM grp_flag
+GROUP BY customer_id, grp
+HAVING COUNT(*) >= 3
+ORDER BY customer_id, consecutive_start, consecutive_end;
+```
 
 
 
