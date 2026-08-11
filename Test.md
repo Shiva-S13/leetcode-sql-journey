@@ -27,3 +27,12 @@ select format(sales_month, 'MMM yyyy') as Sales_month, category, sum(Monthly_rev
 from monthly_sales
 order by category, sales_month
 ```
+##  Retrieve the top 5 products by sales volume, excluding products with zero sales in the past 3 months
+``` sql
+select product_name, 
+sum(quantity) as Sales_volume
+from sales1 
+where sales_date >= dateadd(month, -3,(select max(sales_date) from sales1))
+group by  product_name
+order by sum(quantity) desc
+```
