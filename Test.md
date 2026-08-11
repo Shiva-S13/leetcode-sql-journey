@@ -36,3 +36,38 @@ where sales_date >= dateadd(month, -3,(select max(sales_date) from sales1))
 group by  product_name
 order by sum(quantity) desc
 ```
+## Identify customers who made purchases in two or more consecutive months
+``` sql
+with monthly_revenue as (select customer_id, datefromparts(year(purchase_date), month(purchase_date),1) as mon_trs,
+sum(amount) as tol_rev
+from trs
+group by customer_id, datefromparts(year(purchase_date), month(purchase_date),1)),
+
+ grp as (select customer_id,  mon_trs, tol_rev, 
+ row_number() over (partition by customer_id order by mon_trs) as rn, 
+ dateadd(month, -(row_number() over (partition by customer_id order by mon_trs)), mon_trs) as grp
+ from monthly_revenue)
+
+ select  customer_id, grp, count(*) as num_purchases
+ from grp
+ group by customer_id, grp
+ having count(*)>=2
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
