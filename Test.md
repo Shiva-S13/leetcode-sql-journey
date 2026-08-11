@@ -53,7 +53,26 @@ group by customer_id, datefromparts(year(purchase_date), month(purchase_date),1)
  group by customer_id, grp
  having count(*)>=2
 ```
+##  Q Calculate the Monthly User Retention Rate
+```
+sql
 
+with month_users as (select user_id, DATEFROMPARTS(year(login_date), month(login_date), 1) as month_log
+from ulogin),
+
+reten as (select p.user_id, p.month_log as pre_mon, c.month_log as cur_mon
+from month_users p
+left join month_users c
+on p.user_id=c.user_id and c.month_log = dateadd(month,1,p.month_log))
+
+select pre_mon, count(distinct user_id) as previous_users, 
+count(distinct case when cur_mon is not null then user_id end) as retained_users,
+cast(count(distinct case when cur_mon is not null then user_id end)*100.0/count(distinct user_id) as decimal(10,2)) as retention
+from reten
+group by pre_mon
+order by pre_mon
+
+```
 
 
 
