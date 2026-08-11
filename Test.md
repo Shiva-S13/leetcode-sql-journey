@@ -15,7 +15,7 @@ GROUP BY
     c.customer_name
 ORDER BY total_revenue DESC;
 ```
-##Find the cumulative revenue by month for each product category
+## Find the cumulative revenue by month for each product category
 ``` sql
 with monthly_sales as (select category, 
 datefromparts(year(sales_date), month(sales_date),1) as sales_month, 
