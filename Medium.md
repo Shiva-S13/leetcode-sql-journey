@@ -255,7 +255,7 @@ ORDER BY customer_id, consecutive_start, consecutive_end;
 ```
 
 
-## [1270. Write a solution to find employee_id of all employees that directly or indirectly report their work to the head of the company](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2701.Consecutive%20Transactions%20with%20Increasing%20Amounts/README_EN.md)
+## [1405. All People Report to the Given Manager](https://github.com/mas-tono/leetcode-advanced_sql_50/tree/main/1405-all-people-report-to-the-given-manager)
 ```sql
 
 SELECT DISTINCT e.employee_id
