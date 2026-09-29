@@ -53,8 +53,18 @@ select email as Email from
     group by email 
     having count(email)>1
 ```
+## [1965. Employees With Missing Information](https://leetcode.com/problems/employees-with-missing-information/description/)
 
-
+```sql
+SELECT 
+    COALESCE(e.employee_id, s.employee_id) AS employee_id
+FROM Employees2 e
+FULL OUTER JOIN Salaries2 s
+    ON e.employee_id = s.employee_id
+WHERE e.name IS NULL 
+   OR s.salary IS NULL
+ORDER BY employee_id;
+```
 
 
 
