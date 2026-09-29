@@ -255,12 +255,26 @@ ORDER BY customer_id, consecutive_start, consecutive_end;
 ```
 
 
+## [1270. Write a solution to find employee_id of all employees that directly or indirectly report their work to the head of the company](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2701.Consecutive%20Transactions%20with%20Increasing%20Amounts/README_EN.md)
+```sql
 
+SELECT DISTINCT e.employee_id
+FROM Employees e
 
+LEFT JOIN Employees m1
+    ON e.manager_id = m1.employee_id
 
+LEFT JOIN Employees m2
+    ON m1.manager_id = m2.employee_id
 
+LEFT JOIN Employees m3
+    ON m2.manager_id = m3.employee_id
 
-
+WHERE e.manager_id = 1
+   OR m1.manager_id = 1
+   OR m2.manager_id = 1
+   OR m3.manager_id = 1;
+```
 
 
 
