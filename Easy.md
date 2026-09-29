@@ -46,8 +46,13 @@ CASE
 END AS student
 FROM Seat;
 ```
-
-
+## [182. Duplicate Emails](https://leetcode.com/problems/duplicate-emails/)
+```sql
+select email as Email from 
+    person 
+    group by email 
+    having count(email)>1
+```
 
 
 
